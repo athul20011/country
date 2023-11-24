@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>country</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body style="background-image: url('https://images.pexels.com/photos/1036148/pexels-photo-1036148.jpeg?cs=srgb&dl=agriculture-country-country-road-1036148.jpg&fm=jpg'); background-size: cover;">
+    <div class="container ">
+        <form class="w-50  p-4 mx-auto mt-5 shadow-lg p-3 mb-5 bg-light ">
+          <h2 class="text-center">Country Display</h2>
+            <div class="mb-3">
+              <input id="uname" type="text" class="form-control"  aria-describedby="emailHelp" placeholder=" Enter a country"><br>
+              <button onclick="search()" type="button" class="btn btn-dark text-center">search</button>
+            </div>
+            <div id="result"></div>
+           </div>            
+          </form>
+   </div>
+</body>
+<script>
+function search(){
+  let country =document.getElementById('uname').value
+  console.log(country);
+  if(country==''){
+    alert('enter a country name')
+  }else{
+
+    fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`)
+    .then(country=>country.json())
+    .then(data=>{ 
+      displayCountry(data)
+      console.log(data)})
+    .catch(err=>alert(`invalide country`))
+
+    function displayCountry(data){
+      for(a of data)
+    
+output=`
+  <h5 class="text-bg-light rounded-top text-center w-75">${a.name.common} <span class="text-bg-dark text-center">${a.capital}</span></h5><br>
+  <div class="col text-center">
+  <img class="img-fluid"style="max-width:300px;" src="${a.flags.svg}" alt="...">
+  <p class="text-light fs-6 fw-medium p-2 mt-2">${a.flags.alt}</p>
+  </div>
+  <div class="col text-center">
+    <img style="max-width:400px; max-height:300px; object-fit:cover;" src="${a.coatOfArms.svg}" alt="...">
+    </div>`
+result.innerHTML=output;
+    }
+  }
+}
+</script>
+</html>
